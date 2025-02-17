@@ -1,34 +1,10 @@
 #!/bin/bash
 
-USERID=$(id -u)
-TIMESTAMP=$(date +%F-%H-%M-%S)
-SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
-LOGFILE=/tmp/$SCRIPT_NAME-$TIMESTAMP.log
-R="\e[31m"
-G="\e[32m"
-Y="\e[33m"
-N="\e[0m"
+source ./common.sh
+check_root
 
 echo "please enter DB password:"
 read -s mysql_root_password
-
-VALIDATE(){
-    if [ $1 -ne 0 ]
-    then
-        echo -e "$2...$R FAILURE $N"
-        exit 1
-    else
-        echo -e "$2...$G SUCCESS $N"
-    fi
-}
-
-if [ $USERID -ne 0 ]
-then
-    echo "Please run this script with root access."
-    exit 1
-else
-    echo "You are super user."
-fi
 
 dnf module disable nodejs -y &>>$LOGFILE
 VALIDATE $? "disabling nodejs"
@@ -62,7 +38,7 @@ VALIDATE $? "extracted backend.code"
 npm install &>>$LOGFILE
 VALIDATE $? "installing nodejs dependencies"
 
-cp /home/ec2-user/expense-shell2/backend.service /etc/systemd/system/backend.service &>>$LOGFILE
+cp /home/ec2-user/expense-shell3/backend.service /etc/systemd/system/backend.service &>>$LOGFILE
 VALIDATE $? "copied backend.service"
 
 systemctl daemon-reload &>>$LOGFILE
