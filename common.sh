@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -e
+
+trap 'echo "An error occured in line $LINENO. Exiting..."' ERR
+
 USERID=$(id -u)
 TIMESTAMP=$(date +%F-%H-%M-%S)
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
