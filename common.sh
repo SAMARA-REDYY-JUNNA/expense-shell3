@@ -2,7 +2,11 @@
 
 set -e
 
-trap 'echo "An error occured in line $LINENO. Exiting..."' ERR
+handle_error(){
+    echo "error occured in line $1, error command: $2"
+}
+
+trap 'handle_error ${LINENO} "$BASH_COMMAND"' ERR
 
 USERID=$(id -u)
 TIMESTAMP=$(date +%F-%H-%M-%S)
