@@ -53,7 +53,7 @@ VALIDATE $? "enabling backend"
 dnf install mysql -y &>>$LOGFILE
 VALIDATE $? "installing mysql client"
 
-mysql -h db.mydaws.online -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
+mysql -h db.daws78s.online -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
 VALIDATE $? "schema loading"
 
 systemctl restart backend &>>$LOGFILE
